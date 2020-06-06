@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AV1</title>
+    <style>
+        body {
+            background-color: #fff;
+            color: #000;
+        }
+
+        .main-table {
+            border: 1px solid black;
+            border-spacing: 0;
+        }
+
+        .main-table td {
+            padding: 10px;
+            border: 1px solid black;
+        }
+
+        .main-table td {
+            padding: 10px;
+        }
+
+        .main-table .header {
+            text-align: center;
+            background-color: gray;
+        }
+
+        td.sub-table {
+            padding: 0px;
+        }
+        td.sub-table table {
+            width: 100%;
+        }
+        td.sub-table table td{
+            border: 0px;
+        }
+        .divider-row{
+            border-bottom: 2px solid black;
+        }
+
+        ul {
+            margin: 0;
+        }
+
+        hr {
+            width: 85%;
+        }
+
+        #q3 table {
+            width: 100%;
+            border: 3px solid orangered;
+        }
+
+        #q3 table td {
+            border: 1px solid orangered;
+        }
+
+        #q3 ul {
+            list-style: none;
+        }
+
+        #q3 .chihuahua-img {
+            text-align: center;
+        }
+
+        #q4 h3 {
+            text-align: center;
+        }
+
+        .texto-diagonal {
+            display: block;
+            transform: rotate(55deg);
+            text-align: start;
+            width: 200px;
+            font-size: 24px;
+            padding: 60px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="q1">
+        <h2>Q1</h2>
+        <table class="main-table">
+            <tbody>
+                <tr class="header">
+                    <td colspan="2">titulo</td>
+                </tr>
+                <tr>
+                    <td>PROPRIEDAD</td>
+                    <td>VALOR</td>
+                </tr>
+                <tr>
+                    <td>ATENÇÃO</td>
+                    <td class="sub-table">
+                        <table>
+                            <tr >
+                                <td class="divider-row">
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <h2>Q2</h2>
+    <div>
+        <ol type="I" start="5">
+            <li>Exercicio 1</li>
+            <li>Exercicio 2</li>
+            <li>Exercicio 3</li>
+        </ol>
+        <hr color="yellow" size="4">
+        <ul>
+            <li>Exercicio 1</li>
+            <li>Exercicio 2</li>
+            <li>Exercicio 3</li>
+        </ul>
+    </div>
+    <h2>Q3</h2>
+    <div id="q3">
+        <table>
+            <tbody>
+                <tr>
+                    <td>
+                        <ul>
+                            <a href="#">
+                                <li>Exercicio n 1</li>
+                            </a>
+                            <a href="#">
+                                <li>Exercicio n 2</li>
+                            </a>
+                            <a href="#">
+                                <li>Exercicio n 3</li>
+                            </a>
+                            <a href="#">
+                                <li>Exercicio n 4</li>
+                            </a>
+                            <a href="#">
+                                <li>Exercicio n 5</li>
+                            </a>
+                            <a href="#">
+                                <li>Exercicio n 6</li>
+                            </a>
+                            <a href="#">
+                                <li>Exercicio n 7</li>
+                            </a>
+                            <a href="#">
+                                <li>Exercicio n 8</li>
+                            </a>
+                        </ul>
+                    </td>
+                    <td class="chihuahua-img"><img src="images1.jpeg" alt="" srcset=""></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="q4">
+        <h3>Quebra</h3>
+        <p>Este texto aperece antes da imagem, a qual vai ser alinhada à esquerda<br>
+            <img src="images2.jpeg">
+            Esta frase está na mesma linha da imagem pelo que fica à direita.<br>
+            O parametro de limpeza faz ultrapassar a imagem.<br>
+        </p>
+        <p>Texto Pré-formatado<br><span class="espacado">Este bocado de de texto tem</span><br> muitos espaços<br><br>e
+            mudanças de linhas. </p>
+        <div>
+            <span class="texto-diagonal">web 1<br><br>prova de</span>
+        </div>
+    </div>
+
+</body>
+
+</html>
