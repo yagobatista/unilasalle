@@ -13,30 +13,51 @@ class Usuario(Model):
 
 
 class Tecnico(Model):
+    email = EmailField(unique=True)
+    nome = CharField('Nome do tecnico', max_length=46)
+    senha = CharField(max_length=100)
     departamento = CharField('Departamento', max_length=46)
 
 
 class AtribuicaoTecnico(Model):
-    tecnico = ForeignKey('solicitacoes.Tecnico', on_delete=PROTECT)
-    solicitacao = ForeignKey('solicitacoes.Solicitacao', on_delete=PROTECT)
-    horario = DateTimeField('Horário da atribuição')
+    tecnico = ForeignKey(
+        'solicitacoes.Tecnico',
+        related_name='atribuicoes_Tecnicos',
+        on_delete=PROTECT,
+    )
+    solicitacao = ForeignKey(
+        'solicitacoes.Solicitacao',
+        related_name='atribuicoes_Tecnicos',
+        on_delete=PROTECT,
+    )
+    horario = DateTimeField('Horário da atribuição', auto_now=True)
 
 
 class Solicitacao(Model):
     descricao = TextField()
     status = ManyToManyField(
         'solicitacoes.Status',
+        related_name='solicitacoes',
         through='solicitacoes.MudancaStatus',
     )
-    responsavel = ManyToManyField(
+    tecnicos = ManyToManyField(
         'solicitacoes.Tecnico',
+        related_name='solicitacoes',
         through='solicitacoes.AtribuicaoTecnico',
     )
-    usuario = ForeignKey('solicitacoes.Usuario', on_delete=PROTECT)
+    usuario = ForeignKey(
+        'solicitacoes.Usuario',
+        related_name='solicitacoes',
+        on_delete=PROTECT,
+    )
 
 
 class Avaliacao(Model):
-    solicitacao = ForeignKey('solicitacoes.Solicitacao', on_delete=CASCADE)
+    solicitacao = ForeignKey(
+        'solicitacoes.Solicitacao',
+        related_name='avaliacoes',
+        on_delete=CASCADE,
+    )
     satifacao = PositiveSmallIntegerField('Satifação com o atendimento')
     tempo = PositiveSmallIntegerField('Tempo da solução')
     qualidade = PositiveSmallIntegerField('Satifação qualidade da solução')
