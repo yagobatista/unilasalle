@@ -34,3 +34,5 @@ class UsuarioViewSet(ModelViewSet):
 class TecnicoViewSet(ModelViewSet):
     queryset = Tecnico.objects.all()
     serializer_class = TecnicoSerializer
+    filterset_fields = ['email']
+

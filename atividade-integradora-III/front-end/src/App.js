@@ -6,7 +6,8 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import { Button } from '@material-ui/core';
+import { Button, TextField, Grid } from '@material-ui/core';
+
 import Talk from "talkjs";
 
 const columns = [
@@ -37,8 +38,9 @@ function App() {
   const [data, setData] = useState([]);
   const [talkSession, setSession] = useState([]);
   const [me, setUser] = useState([]);
+  const [email, setEmail] = useState();
+  const [user, setLogin] = useState();
 
-  const user = 1;
   const talkjsContainer = React.createRef();
   const formatSolicitacao = (item) => {
     const numResp = item.atribuicoes_Tecnicos.length
@@ -51,6 +53,7 @@ function App() {
   const baseUrl = 'http://localhost:8000'
 
   useEffect(() => {
+    if (!user) return
     Talk.ready.then(async () => {
       const result = await axios(
         `${baseUrl}/tecnicos/${user}/`,
@@ -69,9 +72,10 @@ function App() {
       setSession(session)
       setUser(funcionario)
     });
-  }, []);
+  }, [user]);
 
   useEffect(() => {
+    if (!user) return
     const fetchData = async () => {
       const result = await axios(
         `${baseUrl}/solicitacoes/?expand=usuario,expand=usuario,atribuicoes_Tecnicos.tecnico`,
@@ -80,33 +84,59 @@ function App() {
       setData(solicitacoes);
     };
     fetchData();
-  }, []);
+  }, [user]);
 
-  const atribuir = async ({ original: { id } }) => {
+  const atribuir = async ({ original: { id }, index }) => {
     if (id) {
       const resp = await axios.post(
         `${baseUrl}/solicitacoes/${id}/atribuir/`,
         { tecnico: user },
       );
       if (resp.status == 200) {
-        data.forEach((item, key) => {
-          if (item.id === id) {
-            data[key] = formatSolicitacao(resp.data)
-          }
-        });
-        setData(data);
+        const solicitacoes = data.map(item => item);
+        solicitacoes[index] = formatSolicitacao(resp.data)
+        setData(solicitacoes);
       }
     }
   };
-  function openChat({ original: { id } }) {
+  const openChat = ({ original: { id } }) => {
     const conversation = talkSession.getOrCreateConversation(`solicitacao_${id}`);
     conversation.setParticipant(me);
     const inbox = talkSession.createInbox({ selected: conversation });
     inbox.mount(talkjsContainer.current);
 
   };
+  const login = async () => {
+    if (!email) return
+    const resp = await axios.get(
+      `${baseUrl}/tecnicos/?email=${email}`
+    );
+    const tecnico = resp.data;
+    if (tecnico.length === 1) {
+      setLogin(tecnico[0].id)
+    }
+  };
   return (
-    <Table columns={columns} data={data} atribuir={atribuir} openChat={openChat.bind(talkSession)} talkjsContainer={talkjsContainer} />
+    <div>
+      {!user ?
+        <Grid container
+          direction="row"
+          justify="center"
+          alignItems="center"
+          style={{ marginTop: '10%' }}
+        >
+          <Grid item md={4} sm={12} xs={12}>
+            <TextField id="username" label="Email" type="email" fullWidth autoFocus required onChange={({ currentTarget: { value } }) => { setEmail(value) }} />
+
+          </Grid>
+          <Grid item md={1} sm={12} xs={12}>
+            <Button color="primary" variant="contained" onClick={login}>login</Button>
+          </Grid>
+        </Grid>
+        :
+        <Table columns={columns} data={data} atribuir={atribuir} openChat={openChat.bind(talkSession)} talkjsContainer={talkjsContainer} />
+      }
+    </div>
   );
 }
 
